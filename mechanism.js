@@ -27,20 +27,20 @@ function genQuestion() {
       // 억
       ok_before = ans.slice(0, -8);
       if (ok_before.length >= 3 && ok_before.slice(0, -2) != 0) {
-        if (ok_before.slice(0, -2) == 1) {
+        if (ok_before.slice(0, -2) == "1") {
           hangul += "백";
         } else {
           hangul += digits[ok_before.slice(0,-2)] + "백";
         }
       }
       if (ok_before.length >= 2 && ok_before.slice(-2, -1) != 0) {
-        if (ok_before.slice(-2, -1) == 1) {
+        if (ok_before.slice(-2, -1) == "1") {
           hangul += "십";
         } else {
           hangul += digits[ok_before.slice(-2, -1)] + "십";
         }
       }
-      if (ok_before.slice(-1) == 1) {
+      if (ok_before.slice(-1) == "1") {
         hangul += "억";
       } else {
         hangul += digits[ok_before.slice(-1)] + "억";
@@ -50,27 +50,27 @@ function genQuestion() {
       // 만
       man_before = ans.slice(-8, -4);
       if (man_before.length >= 4 && man_before.slice(0, -3) != 0) {
-        if (man_before.slice(0, -3) == 1) {
+        if (man_before.slice(0, -3) == "1") {
           hangul += "천";
         } else {
           hangul += digits[man_before.slice(0,-3)] + "천";
         }
       }
       if (man_before.length >= 3 && man_before.slice(0, -2) != 0) {
-        if (man_before.slice(0, -2) == 1) {
+        if (man_before.slice(0, -2) == "1") {
           hangul += "백";
         } else {
           hangul += digits[man_before.slice(-3,-2)] + "백";
         }
       }
       if (man_before.length >= 2 && man_before.slice(-2, -1) != 0) {
-        if (man_before.slice(-2, -1) == 1) {
+        if (man_before.slice(-2, -1) == "1") {
           hangul += "십";
         } else {
           hangul += digits[man_before.slice(-2, -1)] + "십";
         }
       }
-      if (man_before.slice(-1) == 1) {
+      if (man_before.slice(-1) == "1") {
         hangul += "만";
       } else {
         hangul += digits[man_before.slice(-1)] + "만";
@@ -79,7 +79,7 @@ function genQuestion() {
     if (ans.length >= 4 && ans.slice(-4, -3) != 0) {
       // 천
       chon_before = ans.slice(-4, -3);
-      if (chon_before == 1) {
+      if (chon_before == "1") {
         hangul += "천";
       } else {
         hangul += digits[chon_before] + "천";
@@ -88,7 +88,7 @@ function genQuestion() {
     if (ans.length >= 3 && ans.slice(-3, -2) != 0) {
       // 백
       baek_before = ans.slice(-3, -2);
-      if (baek_before == 1) {
+      if (baek_before == "1") {
         hangul += "백";
       } else {
         hangul += digits[baek_before] + "백";
