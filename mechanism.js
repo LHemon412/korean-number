@@ -17,12 +17,12 @@ function genQuestion() {
     ones = Math.floor(Math.random()*10); // 0 - 9
     tens_hangul = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
     ones_hangul = ["영", "하나", "둘", "셋", "넷", "다섯", "여섯", "일곱", "여덟", "아홉"];
-    hangul = tens_hangul[tens-1] + ones_hangul[ones-1];
+    hangul = tens_hangul[tens] + ones_hangul[ones];
     if (ones == 0) {
       if (tens_hangul == 0) {
         hangul = "영";
       } else {
-        tens_hangul[tens-1];
+        tens_hangul[tens];
       }
     }
     ans = tens.toString() + ones.toString();
