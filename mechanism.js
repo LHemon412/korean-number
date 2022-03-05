@@ -120,11 +120,11 @@ function checkAns() {
   }
   $("#ans").attr("disabled", true);
   $("#correct-ans").animate({opacity:1}, 200, function() {
-    $("#main").delay(1000).animate({opacity:0}, 200, function() {
+    $("#main").delay(5000).animate({opacity:0}, 200, function() {
       genQuestion();
       $("#main").animate({opacity:1}, 200);
     });
-    $("#correct-ans").delay(1000).animate({opacity:0}, 200);
+    $("#correct-ans").delay(5000).animate({opacity:0}, 200);
   })
 }
 
