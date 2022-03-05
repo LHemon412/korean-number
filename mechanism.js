@@ -25,7 +25,11 @@ function genQuestion() {
         tens_hangul[tens];
       }
     }
-    ans = tens.toString() + ones.toString();
+    tenStr = ''
+    if (tens != 0) {
+      tenStr = tens.toString();
+    }
+    ans = tenStr + ones.toString();
   } else if (mode == "sino") {
     mag = Math.floor(Math.random()*12+1); // 1 - 12
     ans = Math.floor(Math.random()*Math.pow(10, mag)+1).toString(); // 1 - 1e12
