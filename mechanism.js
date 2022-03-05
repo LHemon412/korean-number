@@ -13,15 +13,22 @@ function checkState() {
 function genQuestion() {
   hangul = ""
   if (mode == "native") {
-    tens = Math.floor(Math.random()*9+1);
-    ones = Math.floor(Math.random()*9+1);
-    tens_hangul = ["열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
-    ones_hangul = ["하나", "둘", "셋", "넷", "다섯", "여섯", "일곱", "여덟", "아홉"];
+    tens = Math.floor(Math.random()*10); // 0 - 9
+    ones = Math.floor(Math.random()*10); // 0 - 9
+    tens_hangul = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
+    ones_hangul = ["영", "하나", "둘", "셋", "넷", "다섯", "여섯", "일곱", "여덟", "아홉"];
     hangul = tens_hangul[tens-1] + ones_hangul[ones-1];
+    if (ones == 0) {
+      if (tens_hangul == 0) {
+        hangul = "영";
+      } else {
+        tens_hangul[tens-1];
+      }
+    }
     ans = tens.toString() + ones.toString();
   } else if (mode == "sino") {
-    mag = Math.floor(Math.random()*10+1);
-    ans = Math.floor(Math.random()*Math.pow(10, mag)+1).toString();
+    mag = Math.floor(Math.random()*12+1); // 1 - 12
+    ans = Math.floor(Math.random()*Math.pow(10, mag)+1).toString(); // 1 - 1e12
     digits = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
     if (ans.length >= 9) {
       // 억
