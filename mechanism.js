@@ -34,7 +34,7 @@ function genQuestion() {
         }
       }
       if (ok_before.length >= 2 && ok_before.slice(-2, -1) != 0) {
-        if (ok_before.slice(-2, -1) == "1" && ok_before.length == 2) {
+        if (ok_before.slice(-2, -1) == "1") {
           hangul += "십";
         } else {
           hangul += digits[ok_before.slice(-2, -1)] + "십";
@@ -57,14 +57,14 @@ function genQuestion() {
         }
       }
       if (man_before.length >= 3 && man_before.slice(0, -2) != 0) {
-        if (man_before.slice(0, -2) == "1" && man_before.length == 3) {
+        if (man_before.slice(0, -2) == "1") {
           hangul += "백";
         } else {
           hangul += digits[man_before.slice(-3,-2)] + "백";
         }
       }
       if (man_before.length >= 2 && man_before.slice(-2, -1) != 0) {
-        if (man_before.slice(-2, -1) == "1" && man_before.length == 2) {
+        if (man_before.slice(-2, -1) == "1") {
           hangul += "십";
         } else {
           hangul += digits[man_before.slice(-2, -1)] + "십";
