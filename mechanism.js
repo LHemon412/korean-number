@@ -111,20 +111,22 @@ function genQuestion() {
 }
 
 function checkAns() {
+  delay = 1000;
   if ($("#ans").val() == ans) {
     $("#correct-ans").removeClass("text-danger").addClass("text-success")
     $("#correct-ans").text("Correct!")
   } else {
     $("#correct-ans").removeClass("text-success").addClass("text-danger")
     $("#correct-ans").text(ans)
+    delay = 5000;
   }
   $("#ans").attr("disabled", true);
   $("#correct-ans").animate({opacity:1}, 200, function() {
-    $("#main").delay(5000).animate({opacity:0}, 200, function() {
+    $("#main").delay(delay).animate({opacity:0}, 200, function() {
       genQuestion();
       $("#main").animate({opacity:1}, 200);
     });
-    $("#correct-ans").delay(5000).animate({opacity:0}, 200);
+    $("#correct-ans").delay(delay).animate({opacity:0}, 200);
   })
 }
 
