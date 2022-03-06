@@ -25,7 +25,7 @@ function genQuestion() {
     ones_hangul = ["영", "하나", "둘", "셋", "넷", "다섯", "여섯", "일곱", "여덟", "아홉"];
     hangul = tens_hangul[tens] + ones_hangul[ones];
     if (ones == 0) {
-      if (tens_hangul == 0) {
+      if (tens == 0) {
         hangul = "영";
       } else {
         hangul = tens_hangul[tens];
