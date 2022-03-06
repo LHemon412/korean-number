@@ -59,9 +59,9 @@ function genQuestion() {
         }
       }
       if (ok_before.slice(-1) == "1" & ok_before.length == 1) {
-        hangul += "억";
+        hangul += "억 ";
       } else {
-        hangul += digits[ok_before.slice(-1)] + "억";
+        hangul += digits[ok_before.slice(-1)] + "억 ";
       }
     }
     if (ans.length >= 5) {
@@ -89,9 +89,9 @@ function genQuestion() {
         }
       }
       if (man_before.slice(-1) == "1" && man_before.length == 1) {
-        hangul += "만";
+        hangul += "만 ";
       } else {
-        hangul += digits[man_before.slice(-1)] + "만";
+        hangul += digits[man_before.slice(-1)] + "만 ";
       }
     }
     if (ans.length >= 4 && ans.slice(-4, -3) != 0) {
@@ -124,6 +124,7 @@ function genQuestion() {
     ones = ans.slice(-1);
     hangul += digits[ones];
   }
+  hangul = hangul.trim();
   $("#question").text(hangul);
   $("#ans").val("").attr("disabled", false);
   $("#ans").focus();
