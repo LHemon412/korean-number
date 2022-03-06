@@ -161,7 +161,6 @@ $(()=>{
   slider.on('slideStop', genQuestion);
 
   $("#ans").keydown((e)=>{
-    console.log('hi');
     // Submit Handler
     if (e.key == "Enter") {
       if ($("#correct-ans").hasClass("text-danger") && $("#correct-ans").css("opacity") != "0") {
