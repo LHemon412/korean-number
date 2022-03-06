@@ -6,12 +6,39 @@
     <title>Korean Numbers</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <script src="jquery-3.6.0.slim.min.js"></script>
+    <script src="scripts/jquery-3.6.0.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="mechanism.js"></script>
+    <script src="scripts/mechanism.js"></script>
   </head>
   <body class="bg-dark h-100">
+
+    <div class="modal fade" id="infoModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Information</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>This website is developed by LHemon412</p>
+            <h6>Changelog</h6>
+            2022/3/6
+            <ul>
+              <li>Bugfix: 1 digit numbers (01 02 03...)</li>
+              <li>Bugfix: 영 on tens numbers (e.g. 스물영)</li>
+              <li>Bugfix: showing 'undefined' on numbers > 100b</li>
+              <li>Feature: choose number range for Sino numbers</li>
+              <li>Feature: press Return for next question if wrongly answered</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container d-flex flex-column justify-content-center h-75" id="main">
       <div class="container text-center mb-5" id="question_container">
         <h1 class="text-white" id="question">-</h1>
@@ -19,7 +46,7 @@
       <div class="container text-center mb-1" id="ans_container">
         <form class="row justify-content-center">
           <div class="col-auto">
-            <input type="text" class="form-control text-center fs-3" id="ans"></input>
+            <input type="number" class="form-control text-center fs-3" id="ans"></input>
           </div>
         </form>
       </div>
@@ -27,14 +54,36 @@
         <span id="correct-ans" class="fs-4 text-center" style="opacity:0">-</span>
       </div>
     </div>
-    <div class="container d-flex flex-column justify-content-end h-25">
-      <div class="row justify-content-center mb-3">
-        <span class="text-white col-auto align-middle">Sino</span>
-        <div class="col-auto form-check form-switch d-flex flex-row justify-content-center align-items-center p-0">
-          <input class="form-check-input col-2 m-0 " type="checkbox" role="switch" id="sino-native">
-        </div>
-        <span class="text-white col-auto align-middle">Native</span>
+
+    <div class="container d-flex flex-column justify-content-end align-items-center h-25">
+      <button type="button" class="btn btn-secondary w-25 mb-3 align-middle" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings">Settings</button>
+
+    </div>
+
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasSettings">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Settings</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
       </div>
+      <div class="offcanvas-body overflow-hidden small" id="offcanvasSettings">
+        <div class="row justify-content-center">
+          <span class="text-body col-auto align-middle">Sino</span>
+          <div class="col-auto form-check form-switch d-flex flex-row justify-content-center align-items-center p-0">
+            <input class="form-check-input col-2 m-0 " type="checkbox" role="switch" id="sino-native">
+          </div>
+          <span class="text-body col-auto align-middle">Native</span>
+        </div>
+
+        <div class="row justify-content-center" id="rangeSliderDiv">
+          <span class="text-body text-center mb-1">Number range</span>
+          <input type="text" id="rangeSlider" name="range" data-slider-ticks="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]" data-slider-ticks-labels='["일", "십", "백", "천", "만", "십만", "백만", "천만", "억", "십억", "백억"]' data-slider-value="[1,11]" data-slider-lock-to-ticks="true" data-slider-tooltip="hide">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="position-absolute bottom-0 end-0 me-2 mb-2">
+        <img id="infoBtn" alt="svgImg" data-bs-toggle="modal" data-bs-target="#infoModal" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iNDgiIGhlaWdodD0iNDgiCnZpZXdCb3g9IjAgMCAxNzIgMTcyIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDE3MnYtMTcyaDE3MnYxNzJ6IiBmaWxsPSJub25lIj48L3BhdGg+PHBhdGggZD0iTTg2LDEzMy4zYy0yNi4xMjMwNywwIC00Ny4zLC0yMS4xNzY5MyAtNDcuMywtNDcuM3YwYzAsLTI2LjEyMzA3IDIxLjE3NjkzLC00Ny4zIDQ3LjMsLTQ3LjNoMGMyNi4xMjMwNywwIDQ3LjMsMjEuMTc2OTMgNDcuMyw0Ny4zdjBjMCwyNi4xMjMwNyAtMjEuMTc2OTMsNDcuMyAtNDcuMyw0Ny4zeiIgZmlsbD0iI2ZmZmZmZiI+PC9wYXRoPjxnIGZpbGw9IiMwMDAwMDAiPjxwYXRoIGQ9Ik04NiwyOC42NjY2N2MtMzEuNTk2NDIsMCAtNTcuMzMzMzMsMjUuNzM2OTIgLTU3LjMzMzMzLDU3LjMzMzMzYzAsMzEuNTk2NDIgMjUuNzM2OTIsNTcuMzMzMzMgNTcuMzMzMzMsNTcuMzMzMzNjMzEuNTk2NDIsMCA1Ny4zMzMzMywtMjUuNzM2OTIgNTcuMzMzMzMsLTU3LjMzMzMzYzAsLTMxLjU5NjQyIC0yNS43MzY5MiwtNTcuMzMzMzMgLTU3LjMzMzMzLC01Ny4zMzMzM3pNODYsNDAuMTMzMzNjMjUuMzk5MzcsMCA0NS44NjY2NywyMC40NjczIDQ1Ljg2NjY3LDQ1Ljg2NjY3YzAsMjUuMzk5MzcgLTIwLjQ2NzI5LDQ1Ljg2NjY3IC00NS44NjY2Nyw0NS44NjY2N2MtMjUuMzk5MzcsMCAtNDUuODY2NjcsLTIwLjQ2NzI5IC00NS44NjY2NywtNDUuODY2NjdjMCwtMjUuMzk5MzcgMjAuNDY3MywtNDUuODY2NjcgNDUuODY2NjcsLTQ1Ljg2NjY3ek04MC4yNjY2Nyw1Ny4zMzMzM3YxMS40NjY2N2gxMS40NjY2N3YtMTEuNDY2Njd6TTgwLjI2NjY3LDgwLjI2NjY3djM0LjRoMTEuNDY2Njd2LTM0LjR6Ij48L3BhdGg+PC9nPjwvZz48L3N2Zz4="/>
     </div>
   </body>
 </html>
