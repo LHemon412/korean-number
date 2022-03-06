@@ -1,20 +1,26 @@
-ans = "";
-mode="sino";
+var ans = "";
+var mode="sino";var slider = '';
 
 function checkState() {
   if ($("#sino-native").is(":checked")) {
     mode = "native";
+    $("#rangeSliderDiv").css("display", "none");
   } else {
     mode = "sino";
+    $("#rangeSliderDiv").css("display", "flex");
   }
   genQuestion();
+}
+
+function randInt(a, b) {
+  return Math.floor(Math.random()*(b-a+1))+a;
 }
 
 function genQuestion() {
   hangul = ""
   if (mode == "native") {
-    tens = Math.floor(Math.random()*10); // 0 - 9
-    ones = Math.floor(Math.random()*10); // 0 - 9
+    tens = randInt(0,9); // 0 - 9
+    ones = randInt(0,9); // 0 - 9
     tens_hangul = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
     ones_hangul = ["영", "하나", "둘", "셋", "넷", "다섯", "여섯", "일곱", "여덟", "아홉"];
     hangul = tens_hangul[tens] + ones_hangul[ones];
@@ -22,7 +28,7 @@ function genQuestion() {
       if (tens_hangul == 0) {
         hangul = "영";
       } else {
-        tens_hangul[tens];
+        hangul = tens_hangul[tens];
       }
     }
     tenStr = ''
@@ -31,8 +37,9 @@ function genQuestion() {
     }
     ans = tenStr + ones.toString();
   } else if (mode == "sino") {
-    mag = Math.floor(Math.random()*12+1); // 1 - 12
-    ans = Math.floor(Math.random()*Math.pow(10, mag)+1).toString(); // 1 - 1e12
+    var [lowBound, upperBound] = $("#rangeSlider").slider("getValue");
+    mag = randInt(lowBound, upperBound); // 1 - 11
+    ans = (Math.floor(Math.random()*Math.pow(10, mag))).toString(); // 1 - 1e11
     digits = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
     if (ans.length >= 9) {
       // 억
@@ -119,35 +126,56 @@ function genQuestion() {
   }
   $("#question").text(hangul);
   $("#ans").val("").attr("disabled", false);
+  $("#ans").focus();
 }
 
 function checkAns() {
-  delay = 1000;
+  var correct = false;
   if ($("#ans").val() == ans) {
     $("#correct-ans").removeClass("text-danger").addClass("text-success")
     $("#correct-ans").text("Correct!")
+    correct = true;
   } else {
     $("#correct-ans").removeClass("text-success").addClass("text-danger")
-    $("#correct-ans").text(ans)
-    delay = 5000;
+    $("#correct-ans").text(parseInt(ans).toLocaleString());
   }
-  $("#ans").attr("disabled", true);
-  $("#correct-ans").animate({opacity:1}, 200, function() {
-    $("#main").delay(delay).animate({opacity:0}, 200, function() {
-      genQuestion();
-      $("#main").animate({opacity:1}, 200);
+    //$("#ans").attr("disabled", true);
+  if (correct) {
+    $("#correct-ans").animate({opacity:1}, 200, function() {
+      $("#main").delay(1000).animate({opacity:0}, 200, function() {
+        genQuestion();
+        $("#main").animate({opacity:1}, 200);
+      });
+      $("#correct-ans").delay(1000).animate({opacity:0}, 200);
+    })
+  } else {
+    $("#correct-ans").animate({opacity:1}, 200, function() {
+      $("#correct-ans").focus();
     });
-    $("#correct-ans").delay(delay).animate({opacity:0}, 200);
-  })
+  }
 }
 
 $(()=>{
-  checkState()
+  slider = $("#rangeSlider").slider();
+  slider.on('slideStop', genQuestion);
 
   $("#ans").keydown((e)=>{
+    console.log('hi');
     // Submit Handler
     if (e.key == "Enter") {
-      checkAns();
+      if ($("#correct-ans").hasClass("text-danger") && $("#correct-ans").css("opacity") != "0") {
+        $("#main").animate({opacity:0}, 200, function() {
+          genQuestion();
+          $("#main").animate({opacity:1}, 200);
+        });
+        $("#correct-ans").animate({opacity:0}, 200);
+      } else {
+        checkAns();
+      }
+      return false;
+    }
+
+    if ($("#correct-ans").css("opacity") != "0") {
       return false;
     }
 
@@ -165,5 +193,13 @@ $(()=>{
     }
   });
 
+  $("#infoBtn").click(e => {
+
+  })
+
+  checkState()
+
   $("#sino-native").change(checkState);
+
+  $("#ans").focus();
 });
