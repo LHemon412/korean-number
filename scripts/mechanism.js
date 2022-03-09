@@ -39,7 +39,7 @@ function genQuestion() {
   } else if (mode == "sino") {
     var [lowBound, upperBound] = $("#rangeSlider").slider("getValue");
     mag = randInt(lowBound, upperBound); // 1 - 11
-    ans = (Math.floor(Math.random()*Math.pow(10, mag))).toString(); // 1 - 1e11
+    ans = (randInt(1,Math.pow(10, mag)-1)).toString(); // 1 - 1e11
     digits = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
     if (ans.length >= 9) {
       // 억
