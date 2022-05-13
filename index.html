@@ -30,6 +30,10 @@
             <p>For Sino mode, you can choose the range of numbers occuring (from 일 to 백억).</p>
             <p>If you got a wrong answer, the correct number will be shown on the screen. Press "Return" when you are ready for the next question.</p>
             <h5>Changelog</h5>
+            2022/5/13
+            <ul>
+              <li>Feature: options of kor->num / num->kor</li>
+            </ul>
             2022/3/9
             <ul>
               <li>Bugfix: blank question for sino numbers (0)</li>
@@ -71,6 +75,7 @@
 
     </div>
 
+    <!-- Settings Tab -->
     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasSettings">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title">Settings</h5>
@@ -78,20 +83,27 @@
       </div>
       <div class="offcanvas-body overflow-hidden small" id="offcanvasSettings">
         <div class="row justify-content-center">
-          <span class="text-body col-auto align-middle">Sino</span>
+          <span class="text-end text-body col-1 align-middle">Number</span>
+          <div class="col-auto form-check form-switch d-flex flex-row justify-content-center align-items-center p-0">
+            <input class="form-check-input col-2 m-0 " type="checkbox" role="switch" id="number-korean">
+          </div>
+          <span class="text-body col-1 align-middle">Korean</span>
+        </div>
+        <div class="row justify-content-center">
+          <span class="text-end text-body col-1 align-middle" style="white-space: pre">Sino</span>
           <div class="col-auto form-check form-switch d-flex flex-row justify-content-center align-items-center p-0">
             <input class="form-check-input col-2 m-0 " type="checkbox" role="switch" id="sino-native">
           </div>
-          <span class="text-body col-auto align-middle">Native</span>
+          <span class="text-body col-1 align-middle">Native</span>
         </div>
 
         <div class="row justify-content-center" id="rangeSliderDiv">
           <span class="text-body text-center mb-1">Number range</span>
           <input type="text" id="rangeSlider" name="range" data-slider-ticks="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]" data-slider-ticks-labels='["일", "십", "백", "천", "만", "십만", "백만", "천만", "억", "십억", "백억"]' data-slider-value="[1,11]" data-slider-lock-to-ticks="true" data-slider-tooltip="hide">
         </div>
-
       </div>
     </div>
+    <!-- Settings Tab -->
 
     <div class="position-absolute bottom-0 end-0 me-2 mb-2">
         <img id="infoBtn" alt="svgImg" data-bs-toggle="modal" data-bs-target="#infoModal" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iNDgiIGhlaWdodD0iNDgiCnZpZXdCb3g9IjAgMCAxNzIgMTcyIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDE3MnYtMTcyaDE3MnYxNzJ6IiBmaWxsPSJub25lIj48L3BhdGg+PHBhdGggZD0iTTg2LDEzMy4zYy0yNi4xMjMwNywwIC00Ny4zLC0yMS4xNzY5MyAtNDcuMywtNDcuM3YwYzAsLTI2LjEyMzA3IDIxLjE3NjkzLC00Ny4zIDQ3LjMsLTQ3LjNoMGMyNi4xMjMwNywwIDQ3LjMsMjEuMTc2OTMgNDcuMyw0Ny4zdjBjMCwyNi4xMjMwNyAtMjEuMTc2OTMsNDcuMyAtNDcuMyw0Ny4zeiIgZmlsbD0iI2ZmZmZmZiI+PC9wYXRoPjxnIGZpbGw9IiMwMDAwMDAiPjxwYXRoIGQ9Ik04NiwyOC42NjY2N2MtMzEuNTk2NDIsMCAtNTcuMzMzMzMsMjUuNzM2OTIgLTU3LjMzMzMzLDU3LjMzMzMzYzAsMzEuNTk2NDIgMjUuNzM2OTIsNTcuMzMzMzMgNTcuMzMzMzMsNTcuMzMzMzNjMzEuNTk2NDIsMCA1Ny4zMzMzMywtMjUuNzM2OTIgNTcuMzMzMzMsLTU3LjMzMzMzYzAsLTMxLjU5NjQyIC0yNS43MzY5MiwtNTcuMzMzMzMgLTU3LjMzMzMzLC01Ny4zMzMzM3pNODYsNDAuMTMzMzNjMjUuMzk5MzcsMCA0NS44NjY2NywyMC40NjczIDQ1Ljg2NjY3LDQ1Ljg2NjY3YzAsMjUuMzk5MzcgLTIwLjQ2NzI5LDQ1Ljg2NjY3IC00NS44NjY2Nyw0NS44NjY2N2MtMjUuMzk5MzcsMCAtNDUuODY2NjcsLTIwLjQ2NzI5IC00NS44NjY2NywtNDUuODY2NjdjMCwtMjUuMzk5MzcgMjAuNDY3MywtNDUuODY2NjcgNDUuODY2NjcsLTQ1Ljg2NjY3ek04MC4yNjY2Nyw1Ny4zMzMzM3YxMS40NjY2N2gxMS40NjY2N3YtMTEuNDY2Njd6TTgwLjI2NjY3LDgwLjI2NjY3djM0LjRoMTEuNDY2Njd2LTM0LjR6Ij48L3BhdGg+PC9nPjwvZz48L3N2Zz4="/>

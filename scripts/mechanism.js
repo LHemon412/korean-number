@@ -1,13 +1,22 @@
 var ans = "";
-var mode="sino";var slider = '';
+var questionMode = "sino";
+var answerMode = "number";
+var slider = '';
 
 function checkState() {
   if ($("#sino-native").is(":checked")) {
-    mode = "native";
+    questionMode = "native";
     $("#rangeSliderDiv").css("display", "none");
   } else {
-    mode = "sino";
+    questionMode = "sino";
     $("#rangeSliderDiv").css("display", "flex");
+  }
+  if ($("#number-korean").is(":checked")) {
+    answerMode = "korean";
+    $("#ans")[0].type = "text";
+  } else {
+    answerMode = "number";
+    $("#ans")[0].type = "number";
   }
   genQuestion();
 }
@@ -17,8 +26,9 @@ function randInt(a, b) {
 }
 
 function genQuestion() {
-  hangul = ""
-  if (mode == "native") {
+  var hangul = "";
+  var number = "";
+  if (questionMode == "native") {
     tens = randInt(0,9); // 0 - 9
     ones = randInt(0,9); // 0 - 9
     tens_hangul = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
@@ -35,15 +45,15 @@ function genQuestion() {
     if (tens != 0) {
       tenStr = tens.toString();
     }
-    ans = tenStr + ones.toString();
-  } else if (mode == "sino") {
+    number = tenStr + ones.toString();
+  } else if (questionMode == "sino") {
     var [lowBound, upperBound] = $("#rangeSlider").slider("getValue");
     mag = randInt(lowBound, upperBound); // 1 - 11
-    ans = (randInt(1,Math.pow(10, mag)-1)).toString(); // 1 - 1e11
+    number = (randInt(1,Math.pow(10, mag)-1)).toString(); // 1 - 1e11
     digits = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
-    if (ans.length >= 9) {
+    if (number.length >= 9) {
       // 억
-      ok_before = ans.slice(0, -8);
+      ok_before = number.slice(0, -8);
       if (ok_before.length >= 3 && ok_before.slice(0, -2) != 0) {
         if (ok_before.slice(0, -2) == "1") {
           hangul += "백";
@@ -64,9 +74,9 @@ function genQuestion() {
         hangul += digits[ok_before.slice(-1)] + "억 ";
       }
     }
-    if (ans.length >= 5) {
+    if (number.length >= 5) {
       // 만
-      man_before = ans.slice(-8, -4);
+      man_before = number.slice(-8, -4);
       if (man_before.length >= 4 && man_before.slice(0, -3) != 0) {
         if (man_before.slice(0, -3) == "1") {
           hangul += "천";
@@ -94,53 +104,65 @@ function genQuestion() {
         hangul += digits[man_before.slice(-1)] + "만 ";
       }
     }
-    if (ans.length >= 4 && ans.slice(-4, -3) != 0) {
+    if (number.length >= 4 && number.slice(-4, -3) != 0) {
       // 천
-      chon_before = ans.slice(-4, -3);
+      chon_before = number.slice(-4, -3);
       if (chon_before == "1") {
         hangul += "천";
       } else {
         hangul += digits[chon_before] + "천";
       }
     }
-    if (ans.length >= 3 && ans.slice(-3, -2) != 0) {
+    if (number.length >= 3 && number.slice(-3, -2) != 0) {
       // 백
-      baek_before = ans.slice(-3, -2);
+      baek_before = number.slice(-3, -2);
       if (baek_before == "1") {
         hangul += "백";
       } else {
         hangul += digits[baek_before] + "백";
       }
     }
-    if (ans.length >= 2 && ans.slice(-2, -1) != 0) {
+    if (number.length >= 2 && number.slice(-2, -1) != 0) {
       // 십
-      sip_before = ans.slice(-2, -1);
+      sip_before = number.slice(-2, -1);
       if (sip_before == 1) {
         hangul +=  "십"
       } else {
         hangul += digits[sip_before] + "십"
       }
     }
-    ones = ans.slice(-1);
+    ones = number.slice(-1);
     hangul += digits[ones];
   }
+  console.log(answerMode, questionMode, number, hangul);
   hangul = hangul.trim();
-  $("#question").text(hangul);
+  var questionText = "";
+  if (answerMode == "number") {
+    questionText = hangul;
+    ans = number;
+  } else {
+    questionText = number;
+    ans = hangul;
+  }
+  $("#question").text(questionText);
   $("#ans").val("").attr("disabled", false);
   $("#ans").focus();
 }
 
 function checkAns() {
   var correct = false;
-  if ($("#ans").val() == ans) {
+  if ($("#ans").val().replace(" ", "") == ans.replace(" ", "")) {
     $("#correct-ans").removeClass("text-danger").addClass("text-success")
     $("#correct-ans").text("Correct!")
     correct = true;
   } else {
     $("#correct-ans").removeClass("text-success").addClass("text-danger")
-    $("#correct-ans").text(parseInt(ans).toLocaleString());
+    if (answerMode == "number") {
+      $("#correct-ans").text(parseInt(ans).toLocaleString());
+    } else {
+      $("#correct-ans").text(ans);
+    }
   }
-    //$("#ans").attr("disabled", true);
   if (correct) {
     $("#correct-ans").animate({opacity:1}, 200, function() {
       $("#main").delay(1000).animate({opacity:0}, 200, function() {
@@ -180,6 +202,7 @@ $(()=>{
     }
 
     // Validate Numbers Only
+    if (answerMode == "korean") return true;
     valid = false;
     validKeys = ["Backspace", "ArrowLeft", "ArrowRight"]
     validKeys.forEach(key => {
@@ -193,13 +216,10 @@ $(()=>{
     }
   });
 
-  $("#infoBtn").click(e => {
-
-  })
-
   checkState()
 
   $("#sino-native").change(checkState);
+  $("#number-korean").change(checkState);
 
   $("#ans").focus();
 });
