@@ -2,6 +2,7 @@ var ans = "";
 var questionMode = "sino";
 var answerMode = "number";
 var slider = '';
+var waiting = false;
 
 function checkState() {
   if ($("#sino-native").is(":checked")) {
@@ -164,10 +165,13 @@ function checkAns() {
     }
   }
   if (correct) {
+    waiting = true;
     $("#correct-ans").animate({opacity:1}, 200, function() {
       $("#main").delay(1000).animate({opacity:0}, 200, function() {
         genQuestion();
-        $("#main").animate({opacity:1}, 200);
+        $("#main").animate({opacity:1}, 200, function() {
+          waiting = false;
+        });
       });
       $("#correct-ans").delay(1000).animate({opacity:0}, 200);
     })
@@ -183,12 +187,17 @@ $(()=>{
   slider.on('slideStop', genQuestion);
 
   $("#ans").keydown((e)=>{
+    if (waiting) return false;
+    
     // Submit Handler
     if (e.key == "Enter") {
       if ($("#correct-ans").hasClass("text-danger") && $("#correct-ans").css("opacity") != "0") {
+        waiting = true;
         $("#main").animate({opacity:0}, 200, function() {
           genQuestion();
-          $("#main").animate({opacity:1}, 200);
+          $("#main").animate({opacity:1}, 200, function() {
+            waiting = false;
+          });
         });
         $("#correct-ans").animate({opacity:0}, 200);
       } else {
