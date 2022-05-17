@@ -135,7 +135,6 @@ function genQuestion() {
     ones = number.slice(-1);
     hangul += digits[ones];
   }
-  console.log(answerMode, questionMode, number, hangul);
   hangul = hangul.trim();
   var questionText = "";
   if (answerMode == "number") {
@@ -188,7 +187,7 @@ $(()=>{
 
   $("#ans").keydown((e)=>{
     if (waiting) return false;
-    
+
     // Submit Handler
     if (e.key == "Enter") {
       if ($("#correct-ans").hasClass("text-danger") && $("#correct-ans").css("opacity") != "0") {
