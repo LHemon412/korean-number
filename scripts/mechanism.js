@@ -55,7 +55,6 @@ function genQuestion() {
     var mag = randInt(lowBound, upperBound); // 1 - 11
     var sigfig = Math.min(parseInt($("#sigfig").val()), mag); // 1 - 11
     number = (randInt(Math.pow(10, sigfig-1),Math.pow(10, sigfig)-1) * (Math.pow(10, mag-sigfig))).toString(); // 1 - 1e11
-    console.log(mag, sigfig, number);
     const digits = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
     if (number.length >= 9) {
       // 억
