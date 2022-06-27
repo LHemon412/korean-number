@@ -8,10 +8,13 @@ function checkState() {
   if ($("#sino-native").is(":checked")) {
     questionMode = "native";
     $("#rangeSliderDiv").css("display", "none");
+    $("#sigFigDiv").css("display", "none");
   } else {
     questionMode = "sino";
     $("#rangeSliderDiv").css("display", "flex");
+    $("#sigFigDiv").css("display", "flex");
   }
+
   if ($("#number-korean").is(":checked")) {
     answerMode = "korean";
     $("#ans")[0].type = "text";
@@ -30,11 +33,11 @@ function genQuestion() {
   var hangul = "";
   var number = "";
   if (questionMode == "native") {
-    tens = randInt(0,9); // 0 - 9
-    ones = randInt(0,9); // 0 - 9
-    tens_hangul = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
-    ones_hangul = ["영", "하나", "둘", "셋", "넷", "다섯", "여섯", "일곱", "여덟", "아홉"];
-    hangul = tens_hangul[tens] + ones_hangul[ones];
+    var tens = randInt(0,9); // 0 - 9
+    var ones = randInt(0,9); // 0 - 9
+    const tens_hangul = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
+    const ones_hangul = ["영", "하나", "둘", "셋", "넷", "다섯", "여섯", "일곱", "여덟", "아홉"];
+    var hangul = tens_hangul[tens] + ones_hangul[ones];
     if (ones == 0) {
       if (tens == 0) {
         hangul = "영";
@@ -42,16 +45,17 @@ function genQuestion() {
         hangul = tens_hangul[tens];
       }
     }
-    tenStr = ''
+    var tenStr = ''
     if (tens != 0) {
       tenStr = tens.toString();
     }
     number = tenStr + ones.toString();
   } else if (questionMode == "sino") {
     var [lowBound, upperBound] = $("#rangeSlider").slider("getValue");
-    mag = randInt(lowBound, upperBound); // 1 - 11
-    number = (randInt(1,Math.pow(10, mag)-1)).toString(); // 1 - 1e11
-    digits = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+    var mag = randInt(lowBound, upperBound); // 1 - 11
+    var sigfig = Math.min(parseInt($("#sigfig").val()), mag); // 1 - 11
+    number = (randInt(1,Math.pow(10, sigfig)-1) * (Math.pow(10, mag-sigfig))).toString(); // 1 - 1e11
+    const digits = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
     if (number.length >= 9) {
       // 억
       ok_before = number.slice(0, -8);
@@ -181,9 +185,19 @@ function checkAns() {
   }
 }
 
+function getSigfig() {
+  return parseInt($("#sigfig").val());
+}
+
 $(()=>{
   slider = $("#rangeSlider").slider();
   slider.on('slideStop', genQuestion);
+
+  $("#sigfig").val("11");
+  $("#sigfig").on("input", function() {
+    $("#sigFigDisplay").text($("#sigfig").val());
+  });
+  $("#sigfig").change(checkState);
 
   $("#ans").keydown((e)=>{
     if (waiting) return false;

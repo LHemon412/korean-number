@@ -31,6 +31,10 @@
             <p>For Sino mode, you can choose the range of numbers occuring (from 일 to 백억).</p>
             <p>If you got a wrong answer, the correct number will be shown on the screen. Press "Return" when you are ready for the next question.</p>
             <h5>Changelog</h5>
+            2022/6/27
+            <ul>
+              <li>Feature: significant figures</li>
+            </ul>
             2022/5/13
             <ul>
               <li>Feature: options of kor->num / num->kor</li>
@@ -74,7 +78,6 @@
 
     <div class="container d-flex flex-column justify-content-end align-items-center h-25">
       <button type="button" class="btn btn-secondary w-25 mb-3 align-middle" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSettings">Settings</button>
-
     </div>
 
     <!-- Settings Tab -->
@@ -83,7 +86,8 @@
         <h5 class="offcanvas-title">Settings</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
       </div>
-      <div class="offcanvas-body overflow-hidden small" id="offcanvasSettings">
+      <div class="offcanvas-body small" id="offcanvasSettings">
+
         <div class="row justify-content-center">
           <span class="text-end text-body col-3 align-middle">Number</span>
           <div class="col-auto form-check form-switch d-flex flex-row justify-content-center align-items-center p-0">
@@ -91,12 +95,21 @@
           </div>
           <span class="text-body col-3 align-middle">Korean</span>
         </div>
+
         <div class="row justify-content-center">
           <span class="text-end text-body col-3 align-middle" style="white-space: pre">Sino</span>
           <div class="col-auto form-check form-switch d-flex flex-row justify-content-center align-items-center p-0">
             <input class="form-check-input col-2 m-0 " type="checkbox" role="switch" id="sino-native">
           </div>
           <span class="text-body col-3 align-middle">Native</span>
+        </div>
+
+        <div class="row justify-content-center" id="sigFigDiv">
+          <div class="row justify-content-center">
+            <span class="text-body text-end col-auto ps-0">Significant figures: </span>
+            <span class="text-body col-auto px-0" id="sigFigDisplay">11</span>
+          </div>
+          <input type="range" class="form-range w-25" id="sigfig" min="1" max="11">
         </div>
 
         <div class="row justify-content-center" id="rangeSliderDiv">
