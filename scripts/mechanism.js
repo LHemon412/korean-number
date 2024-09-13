@@ -26,15 +26,15 @@ function checkState() {
 }
 
 function randInt(a, b) {
-  return Math.floor(Math.random()*(b-a+1))+a;
+  return Math.floor(Math.random() * (b - a + 1)) + a;
 }
 
 function genQuestion() {
   var hangul = "";
   var number = "";
   if (questionMode == "native") {
-    var tens = randInt(0,9); // 0 - 9
-    var ones = randInt(0,9); // 0 - 9
+    var tens = randInt(0, 9); // 0 - 9
+    var ones = randInt(0, 9); // 0 - 9
     const tens_hangul = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
     const ones_hangul = ["영", "하나", "둘", "셋", "넷", "다섯", "여섯", "일곱", "여덟", "아홉"];
     var hangul = tens_hangul[tens] + ones_hangul[ones];
@@ -54,7 +54,7 @@ function genQuestion() {
     var [lowBound, upperBound] = $("#rangeSlider").slider("getValue");
     var mag = randInt(lowBound, upperBound); // 1 - 11
     var sigfig = Math.min(parseInt($("#sigfig").val()), mag); // 1 - 11
-    number = (randInt(Math.pow(10, sigfig-1),Math.pow(10, sigfig)-1) * (Math.pow(10, mag-sigfig))).toString(); // 1 - 1e11
+    number = (randInt(Math.pow(10, sigfig - 1), Math.pow(10, sigfig) - 1) * (Math.pow(10, mag - sigfig))).toString(); // 1 - 1e11
     const digits = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
     if (number.length >= 9) {
       // 억
@@ -62,14 +62,14 @@ function genQuestion() {
       if (ok_before.length >= 3 && ok_before.slice(0, -2) != 0) {
         if (ok_before.slice(0, -2) == "1") {
           hangul += "백";
-        } else {
-          hangul += digits[ok_before.slice(0,-2)] + "백";
+        } else if (ok_before.slice(0, -2) != "0") {
+          hangul += digits[ok_before.slice(0, -2)] + "백";
         }
       }
       if (ok_before.length >= 2 && ok_before.slice(-2, -1) != 0) {
         if (ok_before.slice(-2, -1) == "1") {
           hangul += "십";
-        } else {
+        } else if (ok_before.slice(-2, -1) != "0") {
           hangul += digits[ok_before.slice(-2, -1)] + "십";
         }
       }
@@ -85,21 +85,21 @@ function genQuestion() {
       if (man_before.length >= 4 && man_before.slice(0, -3) != 0) {
         if (man_before.slice(0, -3) == "1") {
           hangul += "천";
-        } else {
-          hangul += digits[man_before.slice(0,-3)] + "천";
+        } else if (man_before.slice(0, -3) != "0") {
+          hangul += digits[man_before.slice(0, -3)] + "천";
         }
       }
       if (man_before.length >= 3 && man_before.slice(0, -2) != 0) {
-        if (man_before.slice(0, -2) == "1") {
+        if (man_before.slice(-3, -2) == "1") {
           hangul += "백";
-        } else {
-          hangul += digits[man_before.slice(-3,-2)] + "백";
+        } else if (man_before.slice(-3, -2) != "0") {
+          hangul += digits[man_before.slice(-3, -2)] + "백";
         }
       }
       if (man_before.length >= 2 && man_before.slice(-2, -1) != 0) {
         if (man_before.slice(-2, -1) == "1") {
           hangul += "십";
-        } else {
+        } else if (man_before.slice(-2, -1) != "0") {
           hangul += digits[man_before.slice(-2, -1)] + "십";
         }
       }
@@ -131,7 +131,7 @@ function genQuestion() {
       // 십
       sip_before = number.slice(-2, -1);
       if (sip_before == 1) {
-        hangul +=  "십"
+        hangul += "십"
       } else {
         hangul += digits[sip_before] + "십"
       }
@@ -169,17 +169,17 @@ function checkAns() {
   }
   if (correct) {
     waiting = true;
-    $("#correct-ans").animate({opacity:1}, 200, function() {
-      $("#main").delay(1000).animate({opacity:0}, 200, function() {
+    $("#correct-ans").animate({ opacity: 1 }, 200, function () {
+      $("#main").delay(1000).animate({ opacity: 0 }, 200, function () {
         genQuestion();
-        $("#main").animate({opacity:1}, 200, function() {
+        $("#main").animate({ opacity: 1 }, 200, function () {
           waiting = false;
         });
       });
-      $("#correct-ans").delay(1000).animate({opacity:0}, 200);
+      $("#correct-ans").delay(1000).animate({ opacity: 0 }, 200);
     })
   } else {
-    $("#correct-ans").animate({opacity:1}, 200, function() {
+    $("#correct-ans").animate({ opacity: 1 }, 200, function () {
       $("#correct-ans").focus();
     });
   }
@@ -189,30 +189,30 @@ function getSigfig() {
   return parseInt($("#sigfig").val());
 }
 
-$(()=>{
+$(() => {
   slider = $("#rangeSlider").slider();
   slider.on('slideStop', genQuestion);
 
   $("#sigfig").val("11");
-  $("#sigfig").on("input", function() {
+  $("#sigfig").on("input", function () {
     $("#sigFigDisplay").text($("#sigfig").val());
   });
   $("#sigfig").change(checkState);
 
-  $("#ans").keydown((e)=>{
+  $("#ans").keydown((e) => {
     if (waiting) return false;
 
     // Submit Handler
     if (e.key == "Enter") {
       if ($("#correct-ans").hasClass("text-danger") && $("#correct-ans").css("opacity") != "0") {
         waiting = true;
-        $("#main").animate({opacity:0}, 200, function() {
+        $("#main").animate({ opacity: 0 }, 200, function () {
           genQuestion();
-          $("#main").animate({opacity:1}, 200, function() {
+          $("#main").animate({ opacity: 1 }, 200, function () {
             waiting = false;
           });
         });
-        $("#correct-ans").animate({opacity:0}, 200);
+        $("#correct-ans").animate({ opacity: 0 }, 200);
       } else {
         checkAns();
       }
