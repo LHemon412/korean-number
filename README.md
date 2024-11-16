@@ -3,7 +3,7 @@
 A website for Korean learners to practise both sino & native numbers.
 
 ## Instructions
-In the settings, you can choose between Sino and Native Korean number mode.
+In the settings, you can choose between Sino and Native Korean number mode as well as set the tempo at which numbers are read.
 
 For Sino mode, you can choose the range of numbers occuring (from 일 to 백억).
 

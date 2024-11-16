@@ -142,6 +142,22 @@
           data-slider-ticks-labels='["일", "십", "백", "천", "만", "십만", "백만", "천만", "억", "십억", "백억"]'
           data-slider-value="[1,11]" data-slider-lock-to-ticks="true" data-slider-tooltip="hide">
       </div>
+
+      <hr/>
+
+      <div id="TtsNotFoundAlert" class="alert alert-primary" role="alert">Korean language support was not detected. You may need to install the Korean language pack for your device for text-to-speech to work.</div>
+
+      <div class="row justify-content-center">
+        <span class="text-body text-center mb-1">Speech</span>
+        <select id="tts-select" class="form-select mw-100 align-middle" style="width: 300pt"></select>
+      </div>
+
+      <div class="row justify-content-center" id="tempoSliderDiv">
+        <span class="text-body text-center mb-1">Speech tempo</span>
+        <input type="text" id="tempoSlider" name="tempo" data-slider-ticks="[30, 40, 50, 60, 70, 80, 90, 100]"
+          data-slider-ticks-labels='["30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]'
+          data-slider-value="100" data-slider-tooltip="hide">
+      </div>
     </div>
   </div>
   <!-- Settings Tab -->
