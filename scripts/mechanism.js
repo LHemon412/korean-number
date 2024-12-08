@@ -309,5 +309,11 @@ $(() => {
   $('#tts-select').on("change", () => {
     const index = $('#tts-select')[0].value;
     voice = (index >= 0) ? voices[index] : null;
+    readAloud($("#question").text());
   });
+
+  $("#question").click(() => {
+    readAloud($("#question").text());
+    console.log("hi");
+  })
 });
